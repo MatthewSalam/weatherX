@@ -10,7 +10,7 @@ export default function LocationsPage() {
     const handleLocationSubmit = (e) => {
         e.preventDefault()
         if (location.trim()){
-            const url = `http://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(location)}&APPID=65a4f79e613239a47d4cccd9ae0a5a5e`
+            const url = `http://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(location)}&APPID=${process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY}`
             setApiUrl(url)
         }
     }

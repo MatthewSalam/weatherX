@@ -36,14 +36,14 @@ export default function Page() {
   useEffect(() => {
     const city = randomCities[Math.floor(Math.random() * randomCities.length)]
     setRandomCity(city)
-    const url = `http://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&APPID=65a4f79e613239a47d4cccd9ae0a5a5e`
+    const url = `http://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&APPID=${process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY}`
     setApiUrl(url)
   }, [])
 
   const handleNewRandom = () => {
     const city = randomCities[Math.floor(Math.random() * randomCities.length)]
     setRandomCity(city)
-    setApiUrl( `http://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&APPID=65a4f79e613239a47d4cccd9ae0a5a5e`)
+    setApiUrl( `http://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&APPID=${process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY}`)
   }
 
   const handleLocationSearch = () => {
@@ -57,7 +57,7 @@ export default function Page() {
     >
       {apiUrl && (<WeatherDisplay
         title = {`Weather report for ${randomCity.split(',')[0]}`}
-        apiUrl="http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=65a4f79e613239a47d4cccd9ae0a5a5e"
+        apiUrl={`http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=${process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY}`}
         buttonText="Get weather for a specific location"
         onButtonClick={handleLocationSearch}
       />)}
