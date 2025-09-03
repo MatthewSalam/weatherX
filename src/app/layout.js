@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className=" mx-[30%] my-10">{children}</div>
+        <div className=" md:mx-[30%] md:my-10">{children}</div>
         
       </body>
     </html>

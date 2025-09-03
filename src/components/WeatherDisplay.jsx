@@ -54,7 +54,7 @@ useEffect(() => {
   return (
     <div>
       <div className="bg-gray-200 p-3 mt-4">
-        <p className="font-medium">{title}:</p>
+        <p className="md:font-medium">{title}:</p>
         
         {loading && <p>Loading...</p>}
         
