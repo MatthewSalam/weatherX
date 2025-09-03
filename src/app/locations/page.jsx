@@ -1,21 +1,23 @@
 'use client'
 import WeatherLayout from '@/components/WeatherLayout'
+import { useRouter } from 'next/navigation'
 import WeatherDisplay from '@/components/WeatherDisplay'
-import { use, useState } from 'react'
+import { useState } from 'react'
 
 export default function LocationsPage() {
     const [location, setLocation] = useState('')
     const [apiUrl, setApiUrl] = useState('')
+    const router = useRouter()
 
     const handleLocationSubmit = (e) => {
         e.preventDefault()
         if (location.trim()){
-            const url = `http://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(location)}&APPID=${process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY}`
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(location)}&APPID=${process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY}`
             setApiUrl(url)
         }
     }
 
-    const handleBackToRandom = () => {window.location.href = '/'}
+    const handleBackToRandom = () =>{router.push('/')}
 
     return(
         <WeatherLayout
@@ -28,7 +30,7 @@ export default function LocationsPage() {
                         type="text"
                         value={location}
                         onChange={(e) => setLocation(e.target.value)}
-                        placeholder="Enter city name (e.g., Paris, Tokyo, New York)"
+                        placeholder="Enter city name (e.g., Paris, Tokyo, New York, Lagos)"
                         className="flex-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                     />
                     <button 

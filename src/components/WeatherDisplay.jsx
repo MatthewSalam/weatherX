@@ -12,31 +12,44 @@ export default function WeatherDisplay({
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  useEffect(() => {
-    if (!apiUrl) return
+useEffect(() => {
+  async function fetchWeather() {
+    setLoading(true)
+    setError(null) // reset error state
 
-    const fetchWeather = async () => {
-      try {
-        setLoading(true)
-        setError(null)
-        const data = await fetch(apiUrl)
-        
-        if (!data.ok) {
-          throw new Error('Failed to fetch weather data')
-        }
-        
-        const result = await data.json()
-        setWeatherData(result)
-      } catch (err) {
-        setError(err.message)
-        console.error('Fetch error:', err)
-      } finally {
-        setLoading(false)
+    try {
+      const res = await fetch(apiUrl);
+
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`Failed to fetch weather data (${res.status}): ${text}`);
       }
-    }
 
-    fetchWeather()
-  }, [apiUrl])
+      const result = await res.json();
+
+      // OpenWeather sometimes gives cod: "404" instead of HTTP 404
+      if (result.cod && result.cod !== 200) {
+        throw new Error(result.message || "City not found");
+      }
+
+      setWeatherData(result);
+    } catch (err) {
+        // Instead of dumping the full raw error, keep it clean
+        if (err.message.toLowerCase().includes("city not found")) {
+          console.warn("City not found:", apiUrl); // log only useful info
+          setError("Sorry, we couldn’t find that city. Please check the spelling and try again.");
+        } else {
+          console.error("Weather API error:", err.message); // log a simplified error
+          setError("Something went wrong while fetching the weather data.");
+        }
+        } finally {
+          setLoading(false);
+        }
+  }
+
+  fetchWeather();
+}, [apiUrl]);
+
 
   return (
     <div>
